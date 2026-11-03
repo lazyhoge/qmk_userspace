@@ -1,3 +1,37 @@
+# lazyhoge の QMK キーマップ
+
+自作の **7sKB**（Salicylic Acid、`salicylic_acid3/7skb/rev1`、Pro Micro の分割）のキーマップ。
+普段使いの Cornix（ZMK、[lazyhoge/zmk-keyboard-cornix](https://github.com/lazyhoge/zmk-keyboard-cornix) の
+`config/cornix.keymap`）と同じ指の動きで打てるように寄せてある。対応の決め方は
+`keyboards/salicylic_acid3/7skb/keymaps/lazyhoge/keymap.c` の先頭に書いた。
+
+キーマップの正本はこのリポジトリだけにする（VIA は入れていない）。
+
+## ビルド
+
+```sh
+nix develop -c qmk compile -kb salicylic_acid3/7skb/rev1 -km lazyhoge
+```
+
+`qmk_firmware` は `$QMK_HOME`（既定 `~/src/qmk_firmware`）に置く。
+
+## 書き込み
+
+左右の Pro Micro に同じファームを書く（左右の判定は基板のピンでするので、ファームは1つ）。
+
+```sh
+nix develop -c qmk flash -kb salicylic_acid3/7skb/rev1 -km lazyhoge
+```
+
+待ち受けが出たら、書く側をブートローダーに入れる（8秒の窓がある）。
+
+- 今のファームがこのキーマップなら: Navi（右の親指の外側）を押したまま右下の RGUI で APPS に入り、左上の Esc（`QK_BOOT`）
+- それ以外: その側のリセットスイッチを押す
+
+hm-wks-01 では、ブートローダーのシリアルは `lh.hardware.qmkKeyboards`（qmk-udev-rules）で本人のセッションから開ける。
+
+---
+
 # QMK Userspace
 
 This is a template repository which allows for an external set of QMK keymaps to be defined and compiled. This is useful for users who want to maintain their own keymaps without having to fork the [main QMK repository](https://github.com/qmk/qmk_firmware). You must still fork the main QMK repository if writing firmware for a *new* keyboard.
